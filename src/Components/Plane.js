@@ -5,7 +5,7 @@ export default function Plane(props) {
   return (
     <mesh ref={ref} receiveShadow>
       {/* <mesh receiveShadow> */}
-      <planeBufferGeometry args={[20, 20]} />
+      <planeBufferGeometry args={[40, 40]} />
       <meshStandardMaterial
         color="rgb(2, 1, 19)"
         metalness={0.3}

@@ -6,11 +6,12 @@ import {
   useSphere,
 } from "@react-three/cannon";
 
-export default function Box() {
+export default function Box({ position }) {
   const [ref] = useSphere(() => ({
     mass: 1,
-    position: [0, -1, 0],
-    rotation: [0, 0, 0],
+    position,
+    // position: [-10, -7, 0],
+    // rotation: [0, 0, 0],
     args: [1],
   }));
 

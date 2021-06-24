@@ -16,8 +16,9 @@ export default function App() {
   const ref2 = useRef();
   return (
     <div className="container">
-      <Canvas shadows camera={{ position: [0, 0, 20], fov: 50 }}>
+      <Canvas shadows camera={{ position: [0, 0, 40], fov: 50 }}>
         <Effects />
+        <ambientLight intensity={50} />
         {/* <directionalLight
           position={[0, 4, 7]}
           intensity={2}
@@ -32,7 +33,7 @@ export default function App() {
         /> */}
         <OrbitControls />
         <Physics
-          gravity={[0, -1, 0]}
+          gravity={[0, -10, 0]}
           // defaultContactMaterial={{
           //   friction: 0,
           //   restitution: 1.5,
@@ -40,27 +41,29 @@ export default function App() {
           //   contactEquationRelaxation: 1,
           // }}
         >
-          {/* <Debug scale={1.0}> */}
-          <Test
-            reference={ref1}
-            xPos={2.02}
-            startAngle={Math.PI / 6}
-            id={1}
-            color={"hotpink"}
-          />
-          <Test
-            reference={ref2}
-            xPos={1.01}
-            startAngle={0}
-            id={2}
-            color={"hotpink"}
-          />
-          <Test xPos={0} startAngle={0} color={"limegreen"} />
-          <Test xPos={-1.01} startAngle={0} color={"limegreen"} />
-          <Test xPos={-2.02} startAngle={0} color={"limegreen"} />
-          {/* <Box /> */}
-          <Room />
-          {/* </Debug> */}
+          <Debug scale={1.0}>
+            {/* <Test
+              xPos={4}
+              position={[6, 2, 0]}
+              startAngle={0}
+              id={1}
+              color={"hotpink"}
+            />
+            <Test
+              position={[2, 3.5, 0]}
+              xPos={2}
+              startAngle={0}
+              id={2}
+              color={"hotpink"}
+            /> */}
+            {/* <Test xPos={0} startAngle={0} color={"limegreen"} />
+            <Test xPos={-2.01} startAngle={0} color={"limegreen"} />
+            <Test xPos={-3.02} startAngle={0} color={"limegreen"} /> */}
+            <Box position={[6, 2, 0]} />
+            <Box position={[2, 3.5, 0]} />
+            <Box position={[-10, -7, 0]} />
+            <Room />
+          </Debug>
         </Physics>
       </Canvas>
     </div>
