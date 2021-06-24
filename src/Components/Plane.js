@@ -8,8 +8,8 @@ export default function Plane(props) {
       <planeBufferGeometry args={[20, 20]} />
       <meshStandardMaterial
         color="rgb(2, 1, 19)"
-        metalness={0.4}
-        roughness={0.8}
+        metalness={0.3}
+        roughness={0.75}
       />
     </mesh>
   );

@@ -1,5 +1,13 @@
 import { useCompoundBody } from "@react-three/cannon";
+import sound from "../Assets/hit3.mp3";
+let play = false;
+const hitSound = new Audio(sound);
 
+const onHit = () => {
+  if (play === false || (hitSound.played.length && !hitSound.ended)) return;
+  hitSound.currentTime = 0;
+  hitSound.play();
+};
 export default function Ball({ ballRef, color, ...props }) {
   useCompoundBody(
     () => ({
@@ -21,12 +29,12 @@ export default function Ball({ ballRef, color, ...props }) {
           mass: 10,
         },
       ],
+      onCollide: onHit,
     }),
     ballRef
   );
-  console.log(color);
   return (
-    <group ref={ballRef}>
+    <group ref={ballRef} onPointerDown={() => (play = true)}>
       <mesh castShadow>
         <boxBufferGeometry args={[0.01, 8, 0.01]} />
         <meshStandardMaterial color="black" />
@@ -44,7 +52,7 @@ export default function Ball({ ballRef, color, ...props }) {
       />
       <pointLight
         position={[0, -4, -6]}
-        intensity={10}
+        intensity={11}
         distance={30}
         decay={3}
         color={color}
