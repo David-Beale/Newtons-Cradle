@@ -4,6 +4,7 @@ import { Physics, Debug } from "@react-three/cannon";
 import Test from "./Components/Pendulum";
 import Room from "./Components/Room";
 import Box from "./Components/Box";
+import Effects from "./Components/Effects";
 
 import { OrbitControls, softShadows } from "@react-three/drei";
 
@@ -13,9 +14,11 @@ export default function App() {
   return (
     <div className="container">
       <Canvas shadows camera={{ position: [0, 0, 20], fov: 50 }}>
-        <directionalLight
+        <Effects />
+        {/* <ambientLight intensity={3} /> */}
+        {/* <directionalLight
           position={[0, 4, 7]}
-          intensity={4}
+          intensity={2}
           castShadow
           shadow-mapSize-width={512}
           shadow-mapSize-height={512}
@@ -24,7 +27,7 @@ export default function App() {
           shadow-camera-right={10}
           shadow-camera-top={10}
           shadow-camera-bottom={-10}
-        />
+        /> */}
         <OrbitControls />
         <Physics
           gravity={[0, -1, 0]}
@@ -38,11 +41,11 @@ export default function App() {
           }}
         >
           {/* <Debug scale={1.0}> */}
-          <Test xPos={2} startAngle={Math.PI / 5} />
-          <Test xPos={1} startAngle={0} />
-          <Test xPos={0} startAngle={0} />
-          <Test xPos={-1} startAngle={0} />
-          <Test xPos={-2} startAngle={0} />
+          <Test xPos={2} startAngle={Math.PI / 5} color={"hotpink"} />
+          <Test xPos={1} startAngle={0} color={"hotpink"} />
+          <Test xPos={0} startAngle={0} color={"limegreen"} />
+          <Test xPos={-1} startAngle={0} color={"limegreen"} />
+          <Test xPos={-2} startAngle={0} color={"limegreen"} />
           {/* <Box /> */}
           <Room />
           {/* </Debug> */}

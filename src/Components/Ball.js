@@ -1,6 +1,6 @@
 import { useCompoundBody } from "@react-three/cannon";
 
-export default function Ball({ ballRef, ...props }) {
+export default function Ball({ ballRef, color, ...props }) {
   useCompoundBody(
     () => ({
       mass: 1,
@@ -24,7 +24,7 @@ export default function Ball({ ballRef, ...props }) {
     }),
     ballRef
   );
-
+  console.log(color);
   return (
     <group ref={ballRef}>
       <mesh castShadow>
@@ -33,8 +33,22 @@ export default function Ball({ ballRef, ...props }) {
       </mesh>
       <mesh castShadow position={[0, -4, 0]} rotation={[0, 0, Math.PI / 4]}>
         <sphereBufferGeometry args={[0.5, 16, 16]} />
-        <meshStandardMaterial color="silver" metalness={1} roughness={0.5} />
+        <meshStandardMaterial color={color} />
       </mesh>
+      <pointLight
+        position={[0, -4, 4]}
+        intensity={9}
+        distance={8}
+        decay={3}
+        color={color}
+      />
+      <pointLight
+        position={[0, -4, -6]}
+        intensity={10}
+        distance={30}
+        decay={3}
+        color={color}
+      />
     </group>
   );
 }

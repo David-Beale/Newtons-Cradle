@@ -4,7 +4,7 @@ import Beam from "./Beam";
 
 import { useRef } from "react";
 
-export default function Test({ xPos, startAngle = 0 }) {
+export default function Test({ xPos, startAngle = 0, color }) {
   const ballRef = useRef();
   const beamRef = useRef();
 
@@ -23,6 +23,7 @@ export default function Test({ xPos, startAngle = 0 }) {
       <Beam position={[0, 7.5, 0]} beamRef={beamRef} />
       <Ball
         ballRef={ballRef}
+        color={color}
         position={[
           +(xPos + r * Math.sin(startAngle)).toFixed(2),
           +(3.5 + r * (1 - Math.cos(startAngle))).toFixed(2),
