@@ -10,14 +10,14 @@ export default function Ball({ ballRef, ...props }) {
           type: "Box",
           position: [0, 0, 0],
           rotation: [0, 0, 0],
-          args: [0.1, 8, 0.1],
+          args: [0.01, 8, 0.01],
           mass: 1,
         },
         {
-          type: "Box",
+          type: "Sphere",
           position: [0, -4, 0],
           rotation: [0, 0, Math.PI / 4],
-          args: [1, 1, 1],
+          args: [0.5],
           mass: 10,
         },
       ],
@@ -28,12 +28,12 @@ export default function Ball({ ballRef, ...props }) {
   return (
     <group ref={ballRef}>
       <mesh castShadow>
-        <boxBufferGeometry args={[0.1, 8, 0.1]} />
-        <meshStandardMaterial color="hotpink" />
+        <boxBufferGeometry args={[0.01, 8, 0.01]} />
+        <meshStandardMaterial color="black" />
       </mesh>
       <mesh castShadow position={[0, -4, 0]} rotation={[0, 0, Math.PI / 4]}>
-        <sphereBufferGeometry args={[0.5 * Math.sqrt(2), 16, 16]} />
-        <meshStandardMaterial color="hotpink" />
+        <sphereBufferGeometry args={[0.5, 16, 16]} />
+        <meshStandardMaterial color="silver" metalness={1} roughness={0.5} />
       </mesh>
     </group>
   );

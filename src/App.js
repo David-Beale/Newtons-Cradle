@@ -2,25 +2,29 @@ import "./App.css";
 import { Canvas } from "@react-three/fiber";
 import { Physics, Debug } from "@react-three/cannon";
 import Test from "./Components/Pendulum";
-import Plane from "./Components/Plane";
+import Room from "./Components/Room";
 import Box from "./Components/Box";
 
-import { OrbitControls } from "@react-three/drei";
+import { OrbitControls, softShadows } from "@react-three/drei";
+
+softShadows();
 
 export default function App() {
   return (
     <div className="container">
-      <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
-        <spotLight
-          position={[5, 5, 5]}
-          angle={0.3}
-          penumbra={1}
-          intensity={2}
+      <Canvas shadows camera={{ position: [0, 0, 20], fov: 50 }}>
+        <directionalLight
+          position={[0, 4, 7]}
+          intensity={4}
           castShadow
-          shadow-mapSize-width={256}
-          shadow-mapSize-height={256}
+          shadow-mapSize-width={512}
+          shadow-mapSize-height={512}
+          shadow-camera-far={50}
+          shadow-camera-left={-10}
+          shadow-camera-right={10}
+          shadow-camera-top={10}
+          shadow-camera-bottom={-10}
         />
-        <hemisphereLight intensity={0.35} />
         <OrbitControls />
         <Physics
           gravity={[0, -1, 0]}
@@ -33,15 +37,15 @@ export default function App() {
             frictionEquationRelaxation: 2,
           }}
         >
-          <Debug scale={1.0}>
-            <Test xPos={2 * Math.sqrt(2)} startAngle={Math.PI / 5} />
-            <Test xPos={Math.sqrt(2)} startAngle={0} />
-            <Test xPos={0} startAngle={0} />
-            <Test xPos={-Math.sqrt(2)} startAngle={0} />
-            <Test xPos={-2 * Math.sqrt(2)} startAngle={0} />
-            {/* <Box /> */}
-            <Plane position={[0, -5, 0]} rotation={[-Math.PI / 2, 0, 0]} />
-          </Debug>
+          {/* <Debug scale={1.0}> */}
+          <Test xPos={2} startAngle={Math.PI / 5} />
+          <Test xPos={1} startAngle={0} />
+          <Test xPos={0} startAngle={0} />
+          <Test xPos={-1} startAngle={0} />
+          <Test xPos={-2} startAngle={0} />
+          {/* <Box /> */}
+          <Room />
+          {/* </Debug> */}
         </Physics>
       </Canvas>
     </div>

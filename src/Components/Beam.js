@@ -13,9 +13,10 @@ export default function Beam({ beamRef, ...props }) {
   );
 
   return (
-    <mesh ref={beamRef} frustumCulled={false}>
-      <cylinderBufferGeometry attach="geometry" args={[0.15, 0.15, 10, 12]} />
-      <meshLambertMaterial color="white" attach="material" />
-    </mesh>
+    <></>
+    // <mesh ref={beamRef} frustumCulled={false}>
+    //   <cylinderBufferGeometry attach="geometry" args={[0.15, 0.15, 10, 12]} />
+    //   <meshBasicMaterial color="white" attach="material"  />
+    // </mesh>
   );
 }

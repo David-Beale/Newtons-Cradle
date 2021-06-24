@@ -24,8 +24,8 @@ export default function Test({ xPos, startAngle = 0 }) {
       <Ball
         ballRef={ballRef}
         position={[
-          xPos + r * Math.sin(startAngle),
-          3.5 + r * (1 - Math.cos(startAngle)),
+          +(xPos + r * Math.sin(startAngle)).toFixed(2),
+          +(3.5 + r * (1 - Math.cos(startAngle))).toFixed(2),
           0,
         ]}
         rotation={[0, 0, startAngle]}
