@@ -7,15 +7,17 @@ import Box from "./Components/Box";
 import Effects from "./Components/Effects";
 
 import { OrbitControls, softShadows } from "@react-three/drei";
+import { useRef } from "react";
 
 softShadows();
 
 export default function App() {
+  const ref1 = useRef();
+  const ref2 = useRef();
   return (
     <div className="container">
       <Canvas shadows camera={{ position: [0, 0, 20], fov: 50 }}>
         <Effects />
-        {/* <ambientLight intensity={3} /> */}
         {/* <directionalLight
           position={[0, 4, 7]}
           intensity={2}
@@ -31,21 +33,31 @@ export default function App() {
         <OrbitControls />
         <Physics
           gravity={[0, -1, 0]}
-          defaultContactMaterial={{
-            friction: 0,
-            restitution: 1,
-            contactEquationStiffness: 1e7,
-            contactEquationRelaxation: 1,
-            frictionEquationStiffness: 1e7,
-            frictionEquationRelaxation: 2,
-          }}
+          // defaultContactMaterial={{
+          //   friction: 0,
+          //   restitution: 1.5,
+          //   contactEquationStiffness: 1e7,
+          //   contactEquationRelaxation: 1,
+          // }}
         >
           {/* <Debug scale={1.0}> */}
-          <Test xPos={2} startAngle={Math.PI / 5} color={"hotpink"} />
-          <Test xPos={1} startAngle={0} color={"hotpink"} />
+          <Test
+            reference={ref1}
+            xPos={2.02}
+            startAngle={Math.PI / 6}
+            id={1}
+            color={"hotpink"}
+          />
+          <Test
+            reference={ref2}
+            xPos={1.01}
+            startAngle={0}
+            id={2}
+            color={"hotpink"}
+          />
           <Test xPos={0} startAngle={0} color={"limegreen"} />
-          <Test xPos={-1} startAngle={0} color={"limegreen"} />
-          <Test xPos={-2} startAngle={0} color={"limegreen"} />
+          <Test xPos={-1.01} startAngle={0} color={"limegreen"} />
+          <Test xPos={-2.02} startAngle={0} color={"limegreen"} />
           {/* <Box /> */}
           <Room />
           {/* </Debug> */}
