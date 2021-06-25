@@ -1,9 +1,6 @@
 import { useBox, useCompoundBody, useSphere } from "@react-three/cannon";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef, useState } from "react";
-import sound from "../Assets/hit3.mp3";
-let play = false;
-const hitSound = new Audio(sound);
 
 const r = 4;
 export default function Ball({
@@ -13,17 +10,18 @@ export default function Ball({
   id,
   xPos,
   startAngle,
+  onHitSound,
   ...props
 }) {
   const stamp = useRef();
   const onHit = (e) => {
     const target = e.body.userData;
-    console.log(
-      id,
-      target,
-      store.current[target].speed,
-      store.current[target].hit
-    );
+    // console.log(
+    //   id,
+    //   target,
+    //   store.current[target].speed,
+    //   store.current[target].hit
+    // );
 
     if (
       (store.current[target].speed === 0 &&
@@ -32,9 +30,7 @@ export default function Ball({
     ) {
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
-      if (play === false || (hitSound.played.length && !hitSound.ended)) return;
-      hitSound.currentTime = 0;
-      hitSound.play();
+      onHitSound();
     } else {
       if (
         (store.current[e.target.userData].speed === 0 ||
@@ -92,7 +88,7 @@ export default function Ball({
   }, [api, id, store, props.position]);
 
   return (
-    <group ref={ballRef} onPointerDown={() => (play = true)}>
+    <group ref={ballRef}>
       <mesh castShadow position={[0, 2, 0]}>
         <boxBufferGeometry args={[0.03, 4, 0.03]} />
         <meshStandardMaterial color="black" />

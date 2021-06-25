@@ -2,9 +2,16 @@ import { useHingeConstraint } from "@react-three/cannon";
 import Ball from "./Ball";
 import Beam from "./Beam";
 
-import { useMemo, useRef } from "react";
+import { useRef } from "react";
 
-export default function Test({ store, xPos, startAngle = 0, id, color }) {
+export default function Test({
+  store,
+  xPos,
+  startAngle = 0,
+  id,
+  color,
+  onHitSound,
+}) {
   const ballRef = useRef();
   const beamRef = useRef();
 
@@ -26,6 +33,7 @@ export default function Test({ store, xPos, startAngle = 0, id, color }) {
         id={id}
         startAngle={startAngle}
         xPos={xPos}
+        onHitSound={onHitSound}
       />
     </>
   );

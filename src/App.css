@@ -6,4 +6,5 @@
   right: 0;
   bottom: 0;
   background-color: rgb(2, 1, 19);
+  overflow: hidden;
 }
