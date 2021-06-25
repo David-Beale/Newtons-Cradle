@@ -3,6 +3,9 @@ import * as THREE from "three";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 const r = 5;
+const clampVelocity = (vel, max) => {
+  return Math.sign(vel) * Math.min(Math.abs(vel), max);
+};
 export default function Ball({
   store,
   ballRef,
@@ -14,6 +17,7 @@ export default function Ball({
   ...props
 }) {
   const stamp = useRef();
+  const stamp2 = useRef();
   const onHit = (e) => {
     const target = e.body.userData;
     // console.log(
@@ -23,32 +27,60 @@ export default function Ball({
     //   store.current[target].hit
     // );
 
-    if (
-      (store.current[target].speed === 0 &&
-        store.current[target].p[1] < -0.48) ||
-      store.current[target].hit
-    ) {
+    //there is a 1 frame delay when updating speed, so we set a marker
+    //in the store to let us know what it should be e.g. noSpeed, newSpeed
+
+    //ball hitting stationary target
+    const targetIsStationary =
+      (store.current[target].speed === 0 || store.current[target].noSpeed) &&
+      !store.current[target].newSpeed &&
+      store.current[target].p[1] < -0.48;
+    if (targetIsStationary) {
+      console.log(id, target, "now stationary");
+      console.log(
+        store.current[target].speed,
+        store.current[target].noSpeed,
+        store.current[target].newSpeed
+      );
+      //this ball loses all velocity
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
       onHitSound();
-    } else {
-      if (
-        (store.current[e.target.userData].speed === 0 ||
-          store.current[e.target.userData].hit) &&
-        store.current[e.target.userData].p[1] < -0.48
-      ) {
-        store.current[target].hit = true;
-        stamp.current = Date.now();
-        const checkStamp = stamp.current;
-        setTimeout(() => {
-          if (checkStamp === stamp.current) store.current[target].hit = false;
-        }, 25);
-      }
-      let velX = store.current[target].v[0] * 1.022;
-      velX = Math.sign(velX) * Math.min(Math.abs(velX), 3.7);
-
-      api.velocity.set(velX * 1.025, store.current[target].v[1] * 1.025, 0);
+      store.current[id].newSpeed = false;
+      store.current[target].newSpeed = store.current[id].v[0];
+      stamp2.current = Date.now();
+      const checkStamp = stamp2.current;
+      setTimeout(() => {
+        // if (checkStamp === stamp2.current) {
+        store.current[target].newSpeed = false;
+        // }
+      }, 20);
+      return;
     }
+    //stationary ball being hit. ignore hits at max height
+    const currentBallStationary =
+      (store.current[id].speed === 0 || store.current[id].noSpeed) &&
+      store.current[id].p[1] < -0.48;
+
+    if (currentBallStationary) {
+      store.current[target].noSpeed = true;
+      stamp.current = Date.now();
+      const checkStamp = stamp.current;
+      setTimeout(() => {
+        // if (checkStamp === stamp.current) {
+        store.current[target].noSpeed = false;
+        // }
+      }, 20);
+    }
+    //take velocity of other ball
+
+    const clampedVel = clampVelocity(
+      store.current[target].newSpeed || store.current[target].v[0],
+      3.7
+    );
+    console.log(id, target, "now moving with vel", clampedVel);
+
+    api.velocity.set(clampedVel * 1.025, store.current[target].v[1] * 1.025, 0);
   };
 
   const [, api] = useSphere(
@@ -72,7 +104,7 @@ export default function Ball({
 
   useEffect(() => {
     const speed = new THREE.Vector3();
-    store.current[id] = { start: props.position };
+    store.current[id] = {};
     const unsubscribe = api.velocity.subscribe((v) => {
       store.current[id].v = v;
       speed.set(...v);
@@ -94,7 +126,7 @@ export default function Ball({
         <meshStandardMaterial color="black" />
       </mesh>
       <mesh castShadow>
-        <sphereBufferGeometry args={[0.55, 16, 16]} />
+        <sphereBufferGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial color={color} />
       </mesh>
       <pointLight

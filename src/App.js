@@ -54,7 +54,7 @@ export default function App() {
           <Test
             store={store}
             xPos={1.1}
-            startAngle={Math.PI / 6}
+            startAngle={0}
             id={2}
             color={"hotpink"}
             onHitSound={onHitSound}
@@ -79,7 +79,7 @@ export default function App() {
             store={store}
             id={5}
             xPos={-2.2}
-            startAngle={0}
+            startAngle={-Math.PI / 6}
             color={"limegreen"}
             onHitSound={onHitSound}
           />
