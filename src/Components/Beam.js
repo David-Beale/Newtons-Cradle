@@ -8,6 +8,8 @@ export default function Beam({ beamRef, ...props }) {
       rotation: [0, 0, Math.PI / 2],
       ...props,
       collisionFilterGroup: 0,
+      linearDamping: 0,
+      angularDamping: 0,
     }),
     beamRef
   );

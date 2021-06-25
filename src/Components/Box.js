@@ -12,13 +12,14 @@ export default function Box({ position }) {
     position,
     // position: [-10, -7, 0],
     // rotation: [0, 0, 0],
-    args: [1],
+    args: [0.5],
+    onCollide: () => console.log("collide"),
   }));
 
   return (
     <group ref={ref}>
       <mesh castShadow>
-        <sphereBufferGeometry args={[1, 16, 16]} />
+        <sphereBufferGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial color="hotpink" />
       </mesh>
     </group>
