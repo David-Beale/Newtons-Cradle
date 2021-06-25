@@ -1,6 +1,6 @@
-import { useBox, useCompoundBody, useSphere } from "@react-three/cannon";
+import { useSphere } from "@react-three/cannon";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 
 const r = 5;
 const clampVelocity = (vel, max) => {
@@ -9,13 +9,16 @@ const clampVelocity = (vel, max) => {
 export default function Ball({
   store,
   ballRef,
-  color,
   id,
   xPos,
   startAngle,
   onHitSound,
   ...props
 }) {
+  const color = useMemo(
+    () => (startAngle === 0 ? "hotpink" : "limegreen"),
+    [startAngle]
+  );
   const stamp = useRef();
   const stamp2 = useRef();
   const onHit = (e) => {

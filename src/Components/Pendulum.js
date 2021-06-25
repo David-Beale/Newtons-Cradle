@@ -4,14 +4,7 @@ import Beam from "./Beam";
 
 import { useRef } from "react";
 
-export default function Test({
-  store,
-  xPos,
-  startAngle = 0,
-  id,
-  color,
-  onHitSound,
-}) {
+export default function Test({ store, xPos, startAngle = 0, id, onHitSound }) {
   const ballRef = useRef();
   const beamRef = useRef();
 
@@ -29,7 +22,6 @@ export default function Test({
       <Ball
         store={store}
         ballRef={ballRef}
-        color={color}
         id={id}
         startAngle={startAngle}
         xPos={xPos}

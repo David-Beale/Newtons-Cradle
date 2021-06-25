@@ -44,19 +44,16 @@ export default function App() {
           {/* <Debug scale={1.1}> */}
           <Test
             store={store}
-            xPos={2.2}
-            // startAngle={0}
+            xPos={2.02}
             startAngle={Math.PI / 6}
             id={1}
-            color={"hotpink"}
             onHitSound={onHitSound}
           />
           <Test
             store={store}
-            xPos={1.1}
-            startAngle={0}
+            xPos={1.01}
+            startAngle={Math.PI / 6}
             id={2}
-            color={"hotpink"}
             onHitSound={onHitSound}
           />
           <Test
@@ -64,23 +61,20 @@ export default function App() {
             id={3}
             xPos={0}
             startAngle={0}
-            color={"hotpink"}
             onHitSound={onHitSound}
           />
           <Test
             store={store}
             id={4}
-            xPos={-1.1}
-            startAngle={0}
-            color={"limegreen"}
+            xPos={-1.01}
+            startAngle={-Math.PI / 6}
             onHitSound={onHitSound}
           />
           <Test
             store={store}
             id={5}
-            xPos={-2.2}
+            xPos={-2.02}
             startAngle={-Math.PI / 6}
-            color={"limegreen"}
             onHitSound={onHitSound}
           />
           {/* {/* <Box position={[6, 2, 0]} /> */}
