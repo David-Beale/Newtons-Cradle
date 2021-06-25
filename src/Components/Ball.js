@@ -5,9 +5,7 @@ import sound from "../Assets/hit3.mp3";
 let play = false;
 const hitSound = new Audio(sound);
 
-const r = 8;
-const color2 = "hotpink";
-const color1 = "limegreen";
+const r = 4;
 export default function Ball({
   store,
   ballRef,
@@ -17,20 +15,38 @@ export default function Ball({
   startAngle,
   ...props
 }) {
-  // const [color, setColor] = useState(startAngle > 0 ? color2 : color1);
+  const stamp = useRef();
   const onHit = (e) => {
-    // console.log(id, target, store.current[target]);
     const target = e.body.userData;
+    console.log(
+      id,
+      target,
+      store.current[target].speed,
+      store.current[target].hit
+    );
 
-    if (store.current[target].speed === 0) {
+    if (
+      (store.current[target].speed === 0 &&
+        store.current[target].p[1] < -0.48) ||
+      store.current[target].hit
+    ) {
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
-      // setColor(color1);
     } else {
-      // setColor(color2);
+      if (
+        store.current[e.target.userData].speed === 0 &&
+        store.current[e.target.userData].p[1] < -0.48
+      ) {
+        store.current[target].hit = true;
+        stamp.current = Date.now();
+        const checkStamp = stamp.current;
+        setTimeout(() => {
+          if (checkStamp === stamp.current) store.current[target].hit = false;
+        }, 25);
+      }
       api.velocity.set(
-        store.current[target].v[0],
-        store.current[target].v[1],
+        store.current[target].v[0] * 1.02,
+        store.current[target].v[1] * 1.02,
         0
       );
     }
@@ -77,12 +93,12 @@ export default function Ball({
 
   return (
     <group ref={ballRef} onPointerDown={() => (play = true)}>
-      <mesh castShadow position={[0, 4, 0]}>
-        <boxBufferGeometry args={[0.03, 8, 0.03]} />
+      <mesh castShadow position={[0, 2, 0]}>
+        <boxBufferGeometry args={[0.03, 4, 0.03]} />
         <meshStandardMaterial color="black" />
       </mesh>
       <mesh castShadow>
-        <sphereBufferGeometry args={[0.5, 16, 16]} />
+        <sphereBufferGeometry args={[0.55, 16, 16]} />
         <meshStandardMaterial color={color} />
       </mesh>
       <pointLight

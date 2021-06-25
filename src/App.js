@@ -43,7 +43,7 @@ export default function App() {
           {/* <Debug scale={1.1}> */}
           <Test
             store={store}
-            xPos={2.02}
+            xPos={2.2}
             // startAngle={0}
             startAngle={Math.PI / 6}
             id={1}
@@ -51,8 +51,8 @@ export default function App() {
           />
           <Test
             store={store}
-            xPos={1.01}
-            startAngle={0}
+            xPos={1.1}
+            startAngle={Math.PI / 6}
             id={2}
             color={"hotpink"}
           />
@@ -66,14 +66,14 @@ export default function App() {
           <Test
             store={store}
             id={4}
-            xPos={-1.01}
+            xPos={-1.1}
             startAngle={0}
             color={"limegreen"}
           />
           <Test
             store={store}
             id={5}
-            xPos={-2.02}
+            xPos={-2.2}
             startAngle={0}
             color={"limegreen"}
           />
