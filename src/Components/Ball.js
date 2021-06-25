@@ -32,9 +32,13 @@ export default function Ball({
     ) {
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
+      if (play === false || (hitSound.played.length && !hitSound.ended)) return;
+      hitSound.currentTime = 0;
+      hitSound.play();
     } else {
       if (
-        store.current[e.target.userData].speed === 0 &&
+        (store.current[e.target.userData].speed === 0 ||
+          store.current[e.target.userData].hit) &&
         store.current[e.target.userData].p[1] < -0.48
       ) {
         store.current[target].hit = true;
@@ -44,15 +48,11 @@ export default function Ball({
           if (checkStamp === stamp.current) store.current[target].hit = false;
         }, 25);
       }
-      api.velocity.set(
-        store.current[target].v[0] * 1.02,
-        store.current[target].v[1] * 1.02,
-        0
-      );
+      let velX = store.current[target].v[0] * 1.022;
+      velX = Math.sign(velX) * Math.min(Math.abs(velX), 3.7);
+
+      api.velocity.set(velX * 1.025, store.current[target].v[1] * 1.025, 0);
     }
-    if (play === false || (hitSound.played.length && !hitSound.ended)) return;
-    hitSound.currentTime = 0;
-    hitSound.play();
   };
 
   const [, api] = useSphere(

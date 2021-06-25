@@ -60,14 +60,14 @@ export default function App() {
             store={store}
             id={3}
             xPos={0}
-            startAngle={0}
-            color={"limegreen"}
+            startAngle={Math.PI / 6}
+            color={"hotpink"}
           />
           <Test
             store={store}
             id={4}
             xPos={-1.1}
-            startAngle={0}
+            startAngle={Math.PI / 6}
             color={"limegreen"}
           />
           <Test
