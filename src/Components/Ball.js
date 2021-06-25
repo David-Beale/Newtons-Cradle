@@ -2,7 +2,7 @@ import { useBox, useCompoundBody, useSphere } from "@react-three/cannon";
 import * as THREE from "three";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-const r = 4;
+const r = 5;
 export default function Ball({
   store,
   ballRef,
@@ -89,8 +89,8 @@ export default function Ball({
 
   return (
     <group ref={ballRef}>
-      <mesh castShadow position={[0, 2, 0]}>
-        <boxBufferGeometry args={[0.03, 4, 0.03]} />
+      <mesh castShadow position={[0, 2.5, 0]}>
+        <boxBufferGeometry args={[0.03, 5, 0.03]} />
         <meshStandardMaterial color="black" />
       </mesh>
       <mesh castShadow>

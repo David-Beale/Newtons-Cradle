@@ -19,13 +19,13 @@ export default function Test({
     collideConnected: false,
     axisA: [0, 0, 1],
     axisB: [0, 0, 1],
-    pivotA: [0, 4, 0],
+    pivotA: [0, 5, 0],
     pivotB: [0, -xPos, 0],
   });
 
   return (
     <>
-      <Beam position={[0, 3.5, 0]} beamRef={beamRef} />
+      <Beam position={[0, 4.5, 0]} beamRef={beamRef} />
       <Ball
         store={store}
         ballRef={ballRef}
