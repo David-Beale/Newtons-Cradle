@@ -60,7 +60,11 @@ export default function App() {
           {/* </Debug> */}
         </Physics>
         <Suspense fallback={null}>
-          <Buttons onToggleSound={onToggleSound} onChangeCfg={setConfig} />
+          <Buttons
+            onToggleSound={onToggleSound}
+            onChangeCfg={setConfig}
+            config={config}
+          />
         </Suspense>
       </Canvas>
       <Loader />

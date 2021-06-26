@@ -1,6 +1,12 @@
 import { Text } from "@react-three/drei";
 
-export default function SoundButton({ setHovered, onClick, cfg, xPos }) {
+export default function SoundButton({
+  setHovered,
+  onClick,
+  cfg,
+  xPos,
+  disabled,
+}) {
   return (
     <group
       onPointerOver={() => setHovered(true)}
@@ -19,7 +25,7 @@ export default function SoundButton({ setHovered, onClick, cfg, xPos }) {
       </Text>
       <mesh>
         <circleBufferGeometry args={[0.7, 32]} />
-        <meshBasicMaterial color={"#33A0F4"} />
+        <meshBasicMaterial color={disabled ? "#063D5F" : "#33A0F4"} />
       </mesh>
     </group>
   );
