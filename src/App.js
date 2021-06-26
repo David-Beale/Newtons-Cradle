@@ -9,7 +9,7 @@ import Pendulum from "./Components/Pendulum";
 import Room from "./Components/Room";
 import Box from "./Components/Box";
 import Effects from "./Components/Effects";
-import Buttons from "./Components/Buttons";
+import Buttons from "./Components/Buttons/Buttons";
 
 import sound from "./Assets/hit3.mp3";
 import configs from "./cfgs";
@@ -30,10 +30,6 @@ export default function App() {
   const onToggleSound = () => {
     play = !play;
     setStart((prev) => !prev);
-    setConfig((prev) => {
-      if (prev === 5) return 1;
-      return prev + 1;
-    });
   };
 
   return (
@@ -64,7 +60,7 @@ export default function App() {
           {/* </Debug> */}
         </Physics>
         <Suspense fallback={null}>
-          <Buttons onToggleSound={onToggleSound} />
+          <Buttons onToggleSound={onToggleSound} onChangeCfg={setConfig} />
         </Suspense>
       </Canvas>
       <Loader />
