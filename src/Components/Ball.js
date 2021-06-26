@@ -1,6 +1,6 @@
 import { useSphere } from "@react-three/cannon";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import interpolate from "color-interpolate";
 
@@ -148,11 +148,11 @@ export default function Ball({
 
   return (
     <group ref={ballRef}>
-      <mesh castShadow position={[0, 2.5, 0]}>
+      <mesh position={[0, 2.5, 0]}>
         <boxBufferGeometry args={[0.03, 5, 0.03]} />
         <meshStandardMaterial color="black" />
       </mesh>
-      <mesh castShadow>
+      <mesh>
         <sphereBufferGeometry args={[0.5, 16, 16]} />
         <meshStandardMaterial color={color} />
       </mesh>

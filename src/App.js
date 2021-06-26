@@ -1,20 +1,21 @@
 import "./App.css";
+import { useRef, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Physics, Debug } from "@react-three/cannon";
+import { OrbitControls, Loader } from "@react-three/drei";
+
+import ReactPlayer from "react-player/lazy";
 import Pendulum from "./Components/Pendulum";
 import Room from "./Components/Room";
 import Box from "./Components/Box";
 import Effects from "./Components/Effects";
-import ReactPlayer from "react-player/lazy";
+import Buttons from "./Components/Buttons";
 
-import { OrbitControls, softShadows } from "@react-three/drei";
-import { useCallback, useRef, useState } from "react";
 import sound from "./Assets/hit3.mp3";
 import configs from "./cfgs";
+
 const hitSound = new Audio(sound);
 let play = false;
-
-softShadows();
 
 export default function App() {
   const [start, setStart] = useState(false);
@@ -37,7 +38,6 @@ export default function App() {
 
   return (
     <div className="container">
-      <button style={{ height: 30, width: 30 }} onClick={onToggleSound} />
       <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
         <Effects />
         {/* <ambientLight intensity={1} /> */}
@@ -63,7 +63,11 @@ export default function App() {
           <Room />
           {/* </Debug> */}
         </Physics>
+        <Suspense fallback={null}>
+          <Buttons onToggleSound={onToggleSound} />
+        </Suspense>
       </Canvas>
+      <Loader />
       <ReactPlayer
         playing={start}
         url="https://www.youtube.com/watch?v=Lju6h-C37hE"
