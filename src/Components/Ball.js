@@ -1,11 +1,16 @@
 import { useSphere } from "@react-three/cannon";
 import * as THREE from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { useFrame } from "@react-three/fiber";
+import interpolate from "color-interpolate";
 
 const r = 5;
 const clampVelocity = (vel, max) => {
   return Math.sign(vel) * Math.min(Math.abs(vel), max);
 };
+const getX = (xPos, angle) => xPos + r * Math.sin(angle);
+const getY = (angle) => -0.5 + r * (1 - Math.cos(angle));
+
 export default function Ball({
   store,
   ballRef,
@@ -15,11 +20,43 @@ export default function Ball({
   onHitSound,
   ...props
 }) {
-  const color = useMemo(
-    () => (startAngle === 0 ? "hotpink" : "limegreen"),
-    [startAngle]
+  const [color, setColor] = useState(
+    startAngle[0] === 0 ? "hotpink" : "limegreen"
   );
+  const oldAngle = useRef(null);
+
+  const colorRef = useRef(color);
+  const colorMap = useRef(null);
+  const progress = useRef(2);
+
+  useEffect(() => {
+    if (!store.current[id]) return;
+    progress.current = 0;
+    oldAngle.current = Math.asin((store.current[id].p[0] - xPos) / r);
+
+    colorMap.current = interpolate([
+      colorRef.current,
+      startAngle[0] === 0 ? "hotpink" : "limegreen",
+    ]);
+  }, [startAngle, id, store, xPos]);
+
+  useFrame(() => {
+    if (progress.current > 1) return;
+    progress.current += 0.02;
+    const newAngle =
+      (1 - progress.current) * oldAngle.current +
+      progress.current * startAngle[0];
+    const newX = getX(xPos, newAngle);
+    const newY = getY(newAngle);
+    api.position.set(newX, newY, 0);
+    api.velocity.set(0, 0, 0);
+
+    colorRef.current = colorMap.current(progress.current);
+    setColor(colorRef.current);
+  });
+
   const onHit = (e) => {
+    if (progress.current <= 1) return;
     const target = e.body.userData;
     // console.log(
     //   id,
@@ -38,12 +75,12 @@ export default function Ball({
       store.current[target].newSpeed <= 0 &&
       store.current[target].p[1] < -0.48;
     if (targetIsStationary) {
-      console.log(id, target, "now stationary");
-      console.log(
-        store.current[target].speed,
-        store.current[target].noSpeed,
-        store.current[target].newSpeed
-      );
+      // console.log(id, target, "now stationary");
+      // console.log(
+      //   store.current[target].speed,
+      //   store.current[target].noSpeed,
+      //   store.current[target].newSpeed
+      // );
       //this ball loses all velocity
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
@@ -67,7 +104,7 @@ export default function Ball({
       store.current[target].updatedSpeed || store.current[target].v[0],
       3.7
     );
-    console.log(id, target, "now moving with vel", clampedVel);
+    // console.log(id, target, "now moving with vel", clampedVel);
 
     api.velocity.set(clampedVel * 1.025, store.current[target].v[1] * 1.025, 0);
   };
@@ -75,12 +112,8 @@ export default function Ball({
   const [, api] = useSphere(
     () => ({
       mass: 10,
-      position: [
-        xPos + r * Math.sin(startAngle),
-        -0.5 + r * (1 - Math.cos(startAngle)),
-        0,
-      ],
-      rotation: [0, 0, startAngle],
+      position: [getX(xPos, startAngle[0]), getY(startAngle[0]), 0],
+      rotation: [0, 0, startAngle[0]],
       args: [0.5],
       userData: id,
       onCollide: onHit,
