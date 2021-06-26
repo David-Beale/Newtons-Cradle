@@ -19,8 +19,6 @@ export default function Ball({
     () => (startAngle === 0 ? "hotpink" : "limegreen"),
     [startAngle]
   );
-  const stamp = useRef();
-  const stamp2 = useRef();
   const onHit = (e) => {
     const target = e.body.userData;
     // console.log(
@@ -35,8 +33,9 @@ export default function Ball({
 
     //ball hitting stationary target
     const targetIsStationary =
-      (store.current[target].speed === 0 || store.current[target].noSpeed) &&
-      !store.current[target].newSpeed &&
+      (store.current[target].speed === 0 ||
+        store.current[target].noSpeed > 0) &&
+      store.current[target].newSpeed <= 0 &&
       store.current[target].p[1] < -0.48;
     if (targetIsStationary) {
       console.log(id, target, "now stationary");
@@ -49,36 +48,23 @@ export default function Ball({
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
       onHitSound();
-      store.current[id].newSpeed = false;
-      store.current[target].newSpeed = store.current[id].v[0];
-      stamp2.current = Date.now();
-      const checkStamp = stamp2.current;
-      setTimeout(() => {
-        // if (checkStamp === stamp2.current) {
-        store.current[target].newSpeed = false;
-        // }
-      }, 20);
+      store.current[id].newSpeed = 0;
+      store.current[target].newSpeed = 2;
+      store.current[target].updatedSpeed = store.current[id].v[0];
       return;
     }
     //stationary ball being hit. ignore hits at max height
     const currentBallStationary =
-      (store.current[id].speed === 0 || store.current[id].noSpeed) &&
+      (store.current[id].speed === 0 || store.current[id].noSpeed > 0) &&
       store.current[id].p[1] < -0.48;
 
     if (currentBallStationary) {
-      store.current[target].noSpeed = true;
-      stamp.current = Date.now();
-      const checkStamp = stamp.current;
-      setTimeout(() => {
-        // if (checkStamp === stamp.current) {
-        store.current[target].noSpeed = false;
-        // }
-      }, 20);
+      store.current[target].noSpeed = 2;
     }
     //take velocity of other ball
 
     const clampedVel = clampVelocity(
-      store.current[target].newSpeed || store.current[target].v[0],
+      store.current[target].updatedSpeed || store.current[target].v[0],
       3.7
     );
     console.log(id, target, "now moving with vel", clampedVel);
@@ -108,10 +94,15 @@ export default function Ball({
   useEffect(() => {
     const speed = new THREE.Vector3();
     store.current[id] = {};
+    store.current[id].newSpeed = 0;
+    store.current[id].noSpeed = 0;
     const unsubscribe = api.velocity.subscribe((v) => {
       store.current[id].v = v;
       speed.set(...v);
       store.current[id].speed = Math.round(speed.length());
+      store.current[id].newSpeed--;
+      store.current[id].noSpeed--;
+      if (store.current[id].newSpeed <= 0) store.current[id].updatedSpeed = 0;
     });
     const unsubscribe2 = api.position.subscribe((p) => {
       store.current[id].p = p;
