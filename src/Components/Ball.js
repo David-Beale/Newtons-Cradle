@@ -38,6 +38,10 @@ export default function Ball({
       colorRef.current,
       startAngle[0] === 0 ? "hotpink" : "limegreen",
     ]);
+
+    store.current[id].newSpeed = 0;
+    store.current[id].noSpeed = 0;
+    store.current[id].updatedSpeed = 0;
   }, [startAngle, id, store, xPos]);
 
   useFrame(() => {
