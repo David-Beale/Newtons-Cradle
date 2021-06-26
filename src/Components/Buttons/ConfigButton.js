@@ -1,8 +1,13 @@
 import { Text } from "@react-three/drei";
 
-export default function SoundButton({ onClick, cfg, xPos }) {
+export default function SoundButton({ setHovered, onClick, cfg, xPos }) {
   return (
-    <group onPointerDown={() => onClick(cfg)} position={[xPos, -6, -9.9]}>
+    <group
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+      onPointerDown={() => onClick(cfg)}
+      position={[xPos, -6, -9.9]}
+    >
       <Text
         fontSize={0.7}
         position={[0, 0, 0.1]}
