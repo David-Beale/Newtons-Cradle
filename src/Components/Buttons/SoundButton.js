@@ -20,7 +20,7 @@ export default function SoundButton({ onToggleSound, setHovered }) {
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
       onPointerDown={onClick}
-      position={[-7.5, -6, -9.9]}
+      position={[-7.5, -5.5, -9.9]}
     >
       <mesh position={[0, 0, 0.1]}>
         <planeBufferGeometry args={[0.7, 0.7]} />

@@ -7,9 +7,8 @@ const hitSound = new Audio(sound);
 
 export const usePendulums = (configNumber, soundOn) => {
   const onHitSound = (velocity) => {
-    if (soundOn === false || (hitSound.played.length && !hitSound.ended))
-      return;
-    hitSound.currentTime = 0;
+    if (soundOn === false) return;
+    hitSound.currentTime = 0.06;
     hitSound.volume = Math.min(velocity * 50, 1);
     hitSound.play();
   };
@@ -37,7 +36,7 @@ export const usePendulums = (configNumber, soundOn) => {
     else {
       progress.current = 0;
       newPendulums.forEach((pendulum, index) => {
-        pendulum.setNewAngle(config[index].startAngle);
+        pendulum.setNewAngle(config[index]);
       });
     }
   }, [configNumber]);

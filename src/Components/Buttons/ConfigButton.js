@@ -5,6 +5,7 @@ export default function SoundButton({
   onClick,
   cfg,
   xPos,
+  yPos,
   disabled,
 }) {
   return (
@@ -12,7 +13,7 @@ export default function SoundButton({
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
       onPointerDown={() => onClick(cfg)}
-      position={[xPos, -6, -9.9]}
+      position={[xPos, yPos, -9.9]}
     >
       <Text
         fontSize={0.7}
@@ -24,7 +25,7 @@ export default function SoundButton({
         {cfg}
       </Text>
       <mesh>
-        <circleBufferGeometry args={[0.7, 32]} />
+        <circleBufferGeometry args={[0.6, 32]} />
         <meshBasicMaterial color={disabled ? "#063D5F" : "#33A0F4"} />
       </mesh>
     </group>
