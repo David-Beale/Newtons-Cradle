@@ -1,10 +1,6 @@
-import { usePlane } from "@react-three/cannon";
-
-export default function Plane(props) {
-  const [ref] = usePlane(() => ({ ...props }));
+export default function Plane({ position, rotation }) {
   return (
-    <mesh ref={ref} receiveShadow>
-      {/* <mesh receiveShadow> */}
+    <mesh position={position} rotation={rotation}>
       <planeBufferGeometry args={[20, 20]} />
       <meshStandardMaterial
         color="rgb(2, 1, 19)"
