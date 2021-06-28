@@ -2,8 +2,18 @@ import { useFrame } from "@react-three/fiber";
 import { useEffect, useRef, useState } from "react";
 import configs from "./cfgs";
 import Pendulum from "./pendulum";
+import sound from "../../Assets/hit3.mp3";
+const hitSound = new Audio(sound);
 
-export const usePendulums = (configNumber, onHitSound) => {
+export const usePendulums = (configNumber, soundOn) => {
+  const onHitSound = (velocity) => {
+    if (soundOn === false || (hitSound.played.length && !hitSound.ended))
+      return;
+    hitSound.currentTime = 0;
+    hitSound.volume = Math.min(velocity * 50, 1);
+    hitSound.play();
+  };
+
   const [pendulums, setPendulums] = useState([]);
   const progress = useRef(false);
 
@@ -51,13 +61,16 @@ export const usePendulums = (configNumber, onHitSound) => {
 
         //check left collision:
         if (leftCollision) {
-          if (Math.abs(pendulum.angle) < 0.05) onHitSound();
+          let impactVelocity;
           const rightCollision = pendulum.collisionCheck(pendulums[index + 1]);
           if (rightCollision) {
-            pendulums[index + 1].swapVelocities(pendulums[index - 1]);
+            impactVelocity = pendulums[index + 1].swapVelocities(
+              pendulums[index - 1]
+            );
           } else {
-            pendulum.swapVelocities(pendulums[index - 1]);
+            impactVelocity = pendulum.swapVelocities(pendulums[index - 1]);
           }
+          if (impactVelocity > 0.0035) onHitSound(impactVelocity);
         }
       });
     }

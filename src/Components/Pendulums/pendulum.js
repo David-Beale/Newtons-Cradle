@@ -10,6 +10,7 @@ const pink = new THREE.Color(1, 0.1412632911304446, 0.45641102317066595);
 export default class Pendulum {
   constructor({ xPos, startAngle }) {
     this.d = 1;
+    this.dampingMultiplier = 0.999;
     this.xPos = xPos;
     this.angle = startAngle;
     this.vel = 0;
@@ -43,7 +44,7 @@ export default class Pendulum {
     if (!this.ref) return;
     this.getAcc();
     this.vel += this.acc;
-    this.vel *= 0.999;
+    this.vel *= this.dampingMultiplier;
     this.angle += this.vel;
     this.ref.rotation.z = this.angle;
     this.position = this.ballRef.getWorldPosition(this.position);
@@ -55,9 +56,23 @@ export default class Pendulum {
     return distance < this.d;
   }
   swapVelocities(other) {
+    if (Math.abs(other.angle) < 0.05) {
+      other.angle = 0;
+      const absVel = Math.abs(other.vel);
+      if (absVel > 0.001 && absVel < 0.005) {
+        other.dampingMultiplier = 0.9;
+      }
+    }
+    if (Math.abs(this.angle) < 0.05) {
+      this.angle = 0;
+      const absVel = Math.abs(this.vel);
+      if (absVel > 0.001 && absVel < 0.005) {
+        this.dampingMultiplier = 0.9;
+      }
+    }
     [other.vel, this.vel] = [this.vel, other.vel];
-    if (Math.abs(other.angle) < 0.05) other.angle = 0;
-    if (Math.abs(this.angle) < 0.05) this.angle = 0;
+
+    return Math.abs(other.vel - this.vel);
   }
 
   setNewAngle(newAngle) {
@@ -68,6 +83,7 @@ export default class Pendulum {
     this.oldColor = this.color.clone();
     this.newColor = this.nextAngle === 0 ? pink : green;
     this.color = this.oldColor;
+    this.dampingMultiplier = 0.999;
   }
   interpolate(progress) {
     this.angle = (1 - progress) * this.oldAngle + progress * this.nextAngle;
