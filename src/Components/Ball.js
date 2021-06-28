@@ -59,15 +59,11 @@ export default function Ball({
     setColor(colorRef.current);
   });
 
-  const onHit = (e) => {
+  const onHit = (e, target) => {
     if (progress.current <= 1) return;
-    const target = e.body.userData;
-    // console.log(
-    //   id,
-    //   target,
-    //   store.current[target].speed,
-    //   store.current[target].hit
-    // );
+    if (e) target = e.body.userData;
+    // console.log(`
+    //   ${id} hits ${target}, ${target} has speed ${store.current[target].speed}. noSpeed: ${store.current[target].noSpeed}. newSpeed ${store.current[target].newSpeed}`);
 
     //there is a 1 frame delay when updating speed, so we set a marker
     //in the store to let us know what it should be e.g. noSpeed, newSpeed
@@ -79,7 +75,7 @@ export default function Ball({
       store.current[target].newSpeed <= 0 &&
       store.current[target].p[1] < -0.48;
     if (targetIsStationary) {
-      // console.log(id, target, "now stationary");
+      // console.log(id, " now stationary");
       // console.log(
       //   store.current[target].speed,
       //   store.current[target].noSpeed,
@@ -89,7 +85,7 @@ export default function Ball({
       api.position.set(xPos, -0.5, 0);
       api.velocity.set(0, 0, 0);
       onHitSound();
-      store.current[id].newSpeed = 0;
+      // store.current[id].newSpeed = 0;
       store.current[target].newSpeed = 2;
       store.current[target].updatedSpeed = store.current[id].v[0];
       return;
@@ -108,7 +104,7 @@ export default function Ball({
       store.current[target].updatedSpeed || store.current[target].v[0],
       3.7
     );
-    // console.log(id, target, "now moving with vel", clampedVel);
+    // console.log(id, " now moving with vel", clampedVel);
 
     api.velocity.set(clampedVel * 1.025, store.current[target].v[1] * 1.025, 0);
   };
@@ -118,7 +114,7 @@ export default function Ball({
       mass: 10,
       position: [getX(xPos, startAngle[0]), getY(startAngle[0]), 0],
       rotation: [0, 0, startAngle[0]],
-      args: [0.5],
+      args: 0.5,
       userData: id,
       onCollide: onHit,
       collisionResponse: 0,
@@ -137,9 +133,6 @@ export default function Ball({
       store.current[id].v = v;
       speed.set(...v);
       store.current[id].speed = Math.round(speed.length());
-      store.current[id].newSpeed--;
-      store.current[id].noSpeed--;
-      if (store.current[id].newSpeed <= 0) store.current[id].updatedSpeed = 0;
     });
     const unsubscribe2 = api.position.subscribe((p) => {
       store.current[id].p = p;
@@ -149,6 +142,22 @@ export default function Ball({
       unsubscribe2();
     };
   }, [api, id, store, props.position]);
+
+  useFrame(() => {
+    if (!store.current[id]?.p?.[0]) return;
+    store.current[id].newSpeed--;
+    store.current[id].noSpeed--;
+    if (store.current[id].newSpeed <= 0) store.current[id].updatedSpeed = 0;
+
+    // if (Math.abs(store.current[id - 1]?.p[0] - store.current[id].p[0]) < 0.6) {
+    //   console.log("manual collision");
+    //   onHit(false, id - 1);
+    // }
+    // if (Math.abs(store.current[id + 1]?.p[0] - store.current[id].p[0]) < 0.6) {
+    //   console.log("manual collision");
+    //   onHit(false, id + 1);
+    // }
+  });
 
   return (
     <group ref={ballRef}>

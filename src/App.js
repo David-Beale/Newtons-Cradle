@@ -2,7 +2,7 @@ import "./App.css";
 import { useRef, useState, Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Physics, Debug } from "@react-three/cannon";
-import { OrbitControls, Loader } from "@react-three/drei";
+import { OrbitControls, Loader, Stats } from "@react-three/drei";
 
 import ReactPlayer from "react-player/lazy";
 import Pendulum from "./Components/Pendulum";
@@ -35,6 +35,7 @@ export default function App() {
   return (
     <div className="container">
       <Canvas camera={{ position: [0, 0, 20], fov: 50 }}>
+        <Stats />
         <Effects />
         {/* <ambientLight intensity={1} /> */}
         <OrbitControls />
