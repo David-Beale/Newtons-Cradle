@@ -13,8 +13,9 @@ export default function Buttons({ onToggleSound, onChangeCfg, config }) {
   return (
     <>
       <SoundButton setHovered={setHovered} onToggleSound={onToggleSound} />
-      {buttonsData.map((button) => (
+      {buttonsData.map((button, index) => (
         <ConfigButton
+          key={index}
           setHovered={setHovered}
           disabled={config === button.id}
           onClick={onChangeCfg}

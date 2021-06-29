@@ -15,7 +15,6 @@ const buildCfg12 = (num) => {
     zPos += 1;
     len -= 0.05;
   }
-  console.log(array);
   return array;
 };
 
