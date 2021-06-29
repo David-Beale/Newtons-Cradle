@@ -15,6 +15,8 @@ export const usePendulums = (configNumber, soundOn, beamRef) => {
 
   const [pendulums, setPendulums] = useState([]);
   const progress = useRef(false);
+  const prevConfig = useRef(null);
+  const currentConfig = useRef(configNumber);
 
   const updatePendulums = (config) => {
     let newPendulums;
@@ -42,6 +44,9 @@ export const usePendulums = (configNumber, soundOn, beamRef) => {
   };
 
   useEffect(() => {
+    prevConfig.current = currentConfig.current;
+    currentConfig.current = configNumber;
+
     const config = configs[configNumber];
     const newPendulums = updatePendulums(config);
 
@@ -61,6 +66,17 @@ export const usePendulums = (configNumber, soundOn, beamRef) => {
       pendulums.forEach((pendulum) => {
         pendulum.interpolate(progress.current);
       });
+
+      //rotate beam:
+      if (currentConfig.current === 12) {
+        beamRef.current.rotation.y = (-progress.current * Math.PI) / 2;
+        beamRef.current.scale.y = 1 + progress.current;
+        beamRef.current.updateMatrix();
+      } else if (prevConfig.current === 12) {
+        beamRef.current.rotation.y = ((progress.current - 1) * Math.PI) / 2;
+        beamRef.current.scale.y = 2 - progress.current;
+        beamRef.current.updateMatrix();
+      }
     } else {
       pendulums.forEach((pendulum) => {
         pendulum.update();

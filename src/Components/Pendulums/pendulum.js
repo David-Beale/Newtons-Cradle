@@ -100,22 +100,42 @@ export default class Pendulum {
     len = 1,
   }) {
     this.id = id;
-    this.xPos = xPos;
-    this.zPos = zPos;
     this.vel = 0;
     this.acc = 0;
-    this.len = len;
-    this.oldAngle = this.angle;
+    this.prevXPos = this.xPos;
+    this.nextXPos = xPos;
+    this.prevZPos = this.zPos;
+    this.nextZPos = zPos;
+    this.prevLen = this.len;
+    this.nextLen = len;
+    this.prevAngle = this.angle;
     this.nextAngle = startAngle;
-    this.oldColor = this.color.clone();
-    this.newColor = color ? green : pink;
-    this.color = this.oldColor;
+    this.prevColor = this.color.clone();
+    this.nextColor = color ? green : pink;
+    this.color = this.color.clone();
     this.forceMultiplier = g / len;
 
     this.dampingMultiplier = 0.999;
     this.vel = vel || 0;
     this.disabledCollisions = disabledCollisions;
-    if (this.ref) {
+  }
+  lerp(progress, prev, next) {
+    return (1 - progress) * prev + progress * next;
+  }
+  interpolate(progress) {
+    if (!this.ref) return;
+    this.angle = this.lerp(progress, this.prevAngle, this.nextAngle);
+    this.ref.rotation.z = this.angle;
+
+    this.color.lerpColors(this.prevColor, this.nextColor, progress);
+    this.colorRef1.color.set(this.color);
+    this.colorRef2.color.set(this.color);
+    this.colorRef3.color.set(this.color);
+
+    if (this.prevLen !== this.nextLen) {
+      this.len = this.lerp(progress, this.prevLen, this.nextLen);
+      this.xPos = this.lerp(progress, this.prevXPos, this.nextXPos);
+      this.zPos = this.lerp(progress, this.prevZPos, this.nextZPos);
       this.ref.position.x = this.xPos;
       this.ref.position.z = this.zPos;
       this.stringRef.scale.y = this.len;
@@ -124,20 +144,5 @@ export default class Pendulum {
       this.colorRef2.position.y = -5 * this.len;
       this.colorRef3.position.y = -5 * this.len;
     }
-  }
-  interpolate(progress) {
-    if (!this.ref) return;
-    this.angle = (1 - progress) * this.oldAngle + progress * this.nextAngle;
-    //lerpColors doesn't appear to be linear, so progress is adjusted
-    this.color.lerpColors(
-      this.oldColor,
-      this.newColor,
-      progress > 1 ? progress : progress / 10
-    );
-
-    this.ref.rotation.z = this.angle;
-    this.colorRef1.color.set(this.color);
-    this.colorRef2.color.set(this.color);
-    this.colorRef3.color.set(this.color);
   }
 }
