@@ -20,15 +20,23 @@ export const usePendulums = (configNumber, soundOn) => {
     const config = configs[configNumber];
     let newPendulums;
     setPendulums((prev) => {
+      newPendulums = [...prev];
       if (prev.length > config.length) {
-        newPendulums = prev.slice(0, config.length);
-      } else {
-        const newArray = [];
-        for (let i = 0; i < config.length - prev.length; i++) {
-          newArray.push(new Pendulum(config[prev.length + i]));
+        loop1: for (let i = prev.length - 1; i >= 0; i--) {
+          for (let j = 0; j < config.length; j++) {
+            if (config[j].id === prev[i].id) continue loop1;
+          }
+          newPendulums.splice(i, 1);
         }
-        newPendulums = [...prev, ...newArray];
+      } else {
+        loop1: for (let i = 0; i < config.length; i++) {
+          for (let j = 0; j < prev.length; j++) {
+            if (config[i].id === prev[j].id) continue loop1;
+          }
+          newPendulums.push(new Pendulum(config[i]));
+        }
       }
+      newPendulums.sort((a, b) => a.id - b.id);
       return newPendulums;
     });
 
@@ -56,6 +64,7 @@ export const usePendulums = (configNumber, soundOn) => {
       // Collision Check
 
       pendulums.forEach((pendulum, index) => {
+        if (pendulum.disabledCollisions) return;
         const leftCollision = pendulum.collisionCheck(pendulums[index - 1]);
 
         //check left collision:

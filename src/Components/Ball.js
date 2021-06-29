@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 export default function Ball({ pendulum }) {
   const pendulumRef = useRef();
   const ballRef = useRef();
+  const stringRef = useRef();
   const colorRef1 = useRef();
   const colorRef2 = useRef();
   const colorRef3 = useRef();
@@ -11,6 +12,7 @@ export default function Ball({ pendulum }) {
     pendulum.setRefs(
       pendulumRef.current,
       ballRef.current,
+      stringRef.current,
       colorRef1.current,
       colorRef2.current,
       colorRef3.current
@@ -20,10 +22,10 @@ export default function Ball({ pendulum }) {
   return (
     <group
       ref={pendulumRef}
-      position={[pendulum.xPos, 4.5, 0]}
+      position={[pendulum.xPos, 4.5, pendulum.zPos]}
       rotation={[0, 0, pendulum.angle]}
     >
-      <mesh position={[0, -2.5, 0]}>
+      <mesh ref={stringRef} position={[0, -2.5, 0]}>
         <boxBufferGeometry args={[0.03, 5, 0.03]} />
         <meshStandardMaterial color="black" />
       </mesh>
