@@ -5,7 +5,7 @@ import Pendulum from "./pendulum";
 import sound from "../../Assets/hit3.mp3";
 const hitSound = new Audio(sound);
 
-export const usePendulums = (configNumber, soundOn) => {
+export const usePendulums = (configNumber, soundOn, beamRef) => {
   const onHitSound = (velocity) => {
     if (soundOn === false) return;
     hitSound.currentTime = 0.06;
@@ -16,8 +16,7 @@ export const usePendulums = (configNumber, soundOn) => {
   const [pendulums, setPendulums] = useState([]);
   const progress = useRef(false);
 
-  useEffect(() => {
-    const config = configs[configNumber];
+  const updatePendulums = (config) => {
     let newPendulums;
     setPendulums((prev) => {
       newPendulums = [...prev];
@@ -39,6 +38,12 @@ export const usePendulums = (configNumber, soundOn) => {
       newPendulums.sort((a, b) => a.id - b.id);
       return newPendulums;
     });
+    return newPendulums;
+  };
+
+  useEffect(() => {
+    const config = configs[configNumber];
+    const newPendulums = updatePendulums(config);
 
     if (progress.current === false) progress.current = 1;
     else {

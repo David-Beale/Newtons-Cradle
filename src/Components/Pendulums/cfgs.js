@@ -2,9 +2,9 @@ const buildCfg12 = (num) => {
   let array = [];
   let zPos = -9.5;
   let len = 1.5;
-  for (let i = 1; i <= num; i++) {
+  for (let i = 0; i < num; i++) {
     array.push({
-      id: i,
+      id: num - i,
       xPos: 0,
       zPos,
       startAngle: Math.PI / 4,
@@ -15,6 +15,7 @@ const buildCfg12 = (num) => {
     zPos += 1;
     len -= 0.05;
   }
+  array.reverse();
   return array;
 };
 

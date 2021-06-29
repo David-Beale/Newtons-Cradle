@@ -19,24 +19,12 @@ export default class Pendulum {
     this.vel = vel || 0;
     this.acc = 0;
     this.color = color ? green : pink;
-    this.ref = null;
-    this.ballRef = null;
-    this.colorRef1 = null;
-    this.colorRef2 = null;
-    this.colorRef3 = null;
-    this.colorMap = null;
     this.position = new THREE.Vector3();
     this.disabledCollisions = false;
     this.forceMultiplier = g / len;
   }
 
-  setRefs(ref, ballRef, stringRef, colorRef1, colorRef2, colorRef3) {
-    this.ref = ref;
-    this.ballRef = ballRef;
-    this.stringRef = stringRef;
-    this.colorRef1 = colorRef1;
-    this.colorRef2 = colorRef2;
-    this.colorRef3 = colorRef3;
+  updateVisuals() {
     this.colorRef1.color.set(this.color);
     this.colorRef2.color.set(this.color);
     this.colorRef3.color.set(this.color);
@@ -48,8 +36,18 @@ export default class Pendulum {
     this.colorRef2.position.y = -5 * this.len;
     this.colorRef3.position.y = -5 * this.len;
     if (this.len !== 1) {
-      this.colorRef3.position.z = -9;
+      this.colorRef3.intensity = 4;
     }
+  }
+
+  setRefs(ref, ballRef, stringRef, colorRef1, colorRef2, colorRef3) {
+    this.ref = ref;
+    this.ballRef = ballRef;
+    this.stringRef = stringRef;
+    this.colorRef1 = colorRef1;
+    this.colorRef2 = colorRef2;
+    this.colorRef3 = colorRef3;
+    this.updateVisuals();
   }
 
   getAcc() {
@@ -60,7 +58,7 @@ export default class Pendulum {
     if (!this.ref) return;
     this.getAcc();
     this.vel += this.acc;
-    // this.vel *= this.dampingMultiplier;
+    this.vel *= this.dampingMultiplier;
     this.angle += this.vel;
     this.ref.rotation.z = this.angle;
     this.position = this.ballRef.getWorldPosition(this.position);

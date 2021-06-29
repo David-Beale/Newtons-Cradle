@@ -1,13 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
-export default function Beam() {
-  const ref = useRef();
+export default function Beam({ beamRef }) {
   useEffect(() => {
-    ref.current.updateMatrix();
-  }, []);
+    beamRef.current.updateMatrix();
+  }, [beamRef]);
   return (
     <mesh
-      ref={ref}
+      ref={beamRef}
       frustumCulled={false}
       matrixAutoUpdate={false}
       position={[0, 4.5, 0]}

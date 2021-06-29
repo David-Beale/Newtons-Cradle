@@ -5,8 +5,7 @@ import { OrbitControls, Loader, Stats } from "@react-three/drei";
 
 import ReactPlayer from "react-player/lazy";
 import Pendulums from "./Components/Pendulums/Pendulums";
-import Room from "./Components/Room";
-import Beam from "./Components/Beam";
+import Room from "./Components/Room/Room";
 import Effects from "./Components/Effects";
 import Buttons from "./Components/Buttons/Buttons";
 
@@ -26,10 +25,7 @@ export default function App() {
         {/* <ambientLight intensity={50} /> */}
         <OrbitControls />
         <Pendulums soundOn={soundOn} configNumber={configNumber} />
-
-        {/*  <Box position={[-10, -7, 0]} /> */}
         <Room />
-        <Beam />
         <Suspense fallback={null}>
           <Buttons
             onToggleSound={onToggleSound}
