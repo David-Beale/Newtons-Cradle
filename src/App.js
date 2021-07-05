@@ -26,8 +26,11 @@ export default function App({ quality, setQuality }) {
         {quality > 1 && <Effects />}
         {quality < 3 && (
           <>
-            <directionalLight intensity={1} position={[0, 10, 10]} />
-            <ambientLight intensity={1.7 / quality} />
+            <directionalLight
+              intensity={quality === 1 ? 1 : 0.5}
+              position={[0, 10, 10]}
+            />
+            <ambientLight intensity={quality === 1 ? 1.7 : 1.2} />
           </>
         )}
         <OrbitControls />
