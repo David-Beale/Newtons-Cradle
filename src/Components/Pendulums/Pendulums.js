@@ -3,14 +3,14 @@ import Ball from "./Ball";
 import Beam from "./Beam";
 import { usePendulums } from "./usePendulums";
 
-export default function Pendulums({ configNumber, soundOn }) {
+export default function Pendulums({ configNumber, soundOn, quality }) {
   const beamRef = useRef();
   const pendulums = usePendulums(configNumber, soundOn, beamRef);
   return (
     <>
       <Beam beamRef={beamRef} />
       {pendulums.map((pendulum) => (
-        <Ball key={pendulum.id} pendulum={pendulum} />
+        <Ball key={pendulum.id} pendulum={pendulum} quality={quality} />
       ))}
     </>
   );

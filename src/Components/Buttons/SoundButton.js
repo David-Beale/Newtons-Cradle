@@ -20,14 +20,14 @@ export default function SoundButton({ onToggleSound, setHovered }) {
       onPointerOver={() => setHovered(true)}
       onPointerOut={() => setHovered(false)}
       onPointerDown={onClick}
-      position={[-7.5, -5.5, -9.9]}
+      position={[-7.5, -5, -9.9]}
     >
       <mesh position={[0, 0, 0.1]}>
-        <planeBufferGeometry args={[0.7, 0.7]} />
+        <planeBufferGeometry args={[0.6, 0.7]} />
         <meshBasicMaterial map={texture} color={"#33A0F4"} />
       </mesh>
       <mesh>
-        <circleBufferGeometry args={[0.7, 32]} />
+        <circleBufferGeometry args={[0.6, 32]} />
         <meshBasicMaterial color={"#33A0F4"} />
       </mesh>
     </group>

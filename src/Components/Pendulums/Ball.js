@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-export default function Ball({ pendulum }) {
+export default function Ball({ pendulum, quality }) {
   const pendulumRef = useRef();
   const ballRef = useRef();
   const stringRef = useRef();
@@ -17,7 +17,7 @@ export default function Ball({ pendulum }) {
       colorRef2.current,
       colorRef3.current
     );
-  }, [pendulum]);
+  }, [pendulum, quality]);
 
   return (
     <group
@@ -27,26 +27,38 @@ export default function Ball({ pendulum }) {
     >
       <mesh ref={stringRef} position={[0, -2.5, 0]}>
         <boxBufferGeometry args={[0.03, 5, 0.03]} />
-        <meshStandardMaterial color="black" />
+        {quality === 3 ? (
+          <meshStandardMaterial color="black" />
+        ) : (
+          <meshBasicMaterial color="black" />
+        )}
       </mesh>
       <mesh ref={ballRef} position={[0, -5, 0]}>
         <sphereBufferGeometry args={[0.5, 16, 16]} />
-        <meshStandardMaterial ref={colorRef1} />
+        {quality > 1 ? (
+          <meshStandardMaterial ref={colorRef1} />
+        ) : (
+          <meshBasicMaterial ref={colorRef1} />
+        )}
       </mesh>
-      <pointLight
-        ref={colorRef2}
-        position={[0, -5, 4]}
-        intensity={9}
-        distance={8}
-        decay={3}
-      />
-      <pointLight
-        ref={colorRef3}
-        position={[0, -5, -6]}
-        intensity={11}
-        distance={30}
-        decay={3}
-      />
+      {quality > 1 && (
+        <pointLight
+          ref={colorRef2}
+          position={[0, -5, 4]}
+          intensity={9}
+          distance={8}
+          decay={3}
+        />
+      )}
+      {quality > 2 && (
+        <pointLight
+          ref={colorRef3}
+          position={[0, -5, -6]}
+          intensity={11}
+          distance={30}
+          decay={3}
+        />
+      )}
     </group>
   );
 }

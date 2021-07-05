@@ -1,23 +1,3 @@
-// import {
-//   EffectComposer,
-//   DepthOfField,
-//   Bloom,
-//   Noise,
-//   Vignette,
-// } from "@react-three/postprocessing";
-
-// export default function Effects() {
-//   return (
-//     <EffectComposer>
-//       <Bloom
-//         intensity={1.5}
-//         luminanceThreshold={0.5}
-//         luminanceSmoothing={0.025}
-//         height={1200}
-//       />
-//     </EffectComposer>
-//   );
-// }
 import * as THREE from "three";
 import React, { useRef, useEffect } from "react";
 import { extend, useThree, useFrame } from "@react-three/fiber";
@@ -49,7 +29,6 @@ export default function Effects() {
   return (
     <effectComposer ref={composer} args={[gl]}>
       <renderPass attachArray="passes" scene={scene} camera={camera} />
-
       <unrealBloomPass
         attachArray="passes"
         args={[bloom.resolution, bloom.strength, bloom.radius, bloom.threshold]}

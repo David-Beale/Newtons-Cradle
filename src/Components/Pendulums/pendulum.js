@@ -26,18 +26,22 @@ export default class Pendulum {
 
   updateVisuals() {
     this.colorRef1.color.set(this.color);
-    this.colorRef2.color.set(this.color);
-    this.colorRef3.color.set(this.color);
     this.ref.position.x = this.xPos;
     this.ref.position.z = this.zPos;
     this.stringRef.scale.y = this.len;
     this.stringRef.position.y = -2.5 * this.len;
     this.ballRef.position.y = -5 * this.len;
-    this.colorRef2.position.y = -5 * this.len;
-    this.colorRef3.position.y = -5 * this.len;
+    if (this.colorRef2) {
+      this.colorRef2.color.set(this.color);
+      this.colorRef2.position.y = -5 * this.len;
+    }
+    if (this.colorRef3) {
+      this.colorRef3.color.set(this.color);
+      this.colorRef3.position.y = -5 * this.len;
+    }
     if (this.len !== 1) {
-      this.colorRef2.intensity = 4;
-      this.colorRef3.intensity = 4;
+      if (this.colorRef2) this.colorRef2.intensity = 4;
+      if (this.colorRef3) this.colorRef3.intensity = 4;
     }
   }
 
@@ -130,8 +134,8 @@ export default class Pendulum {
 
     this.color.lerpColors(this.prevColor, this.nextColor, progress);
     this.colorRef1.color.set(this.color);
-    this.colorRef2.color.set(this.color);
-    this.colorRef3.color.set(this.color);
+    this.colorRef2?.color.set(this.color);
+    this.colorRef3?.color.set(this.color);
 
     if (this.prevLen !== this.nextLen) {
       this.len = this.lerp(progress, this.prevLen, this.nextLen);
@@ -142,8 +146,8 @@ export default class Pendulum {
       this.stringRef.scale.y = this.len;
       this.stringRef.position.y = -2.5 * this.len;
       this.ballRef.position.y = -5 * this.len;
-      this.colorRef2.position.y = -5 * this.len;
-      this.colorRef3.position.y = -5 * this.len;
+      if (this.colorRef2) this.colorRef2.position.y = -5 * this.len;
+      if (this.colorRef3) this.colorRef3.position.y = -5 * this.len;
     }
   }
 }
