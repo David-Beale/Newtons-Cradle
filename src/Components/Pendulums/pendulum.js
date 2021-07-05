@@ -39,7 +39,7 @@ export default class Pendulum {
       this.colorRef3.color.set(this.color);
       this.colorRef3.position.y = -5 * this.len;
     }
-    if (this.len !== 1) {
+    if (this.len > 1) {
       if (this.colorRef2) this.colorRef2.intensity = 4;
       if (this.colorRef3) this.colorRef3.intensity = 4;
     }

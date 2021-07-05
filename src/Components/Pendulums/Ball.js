@@ -35,11 +35,7 @@ export default function Ball({ pendulum, quality }) {
       </mesh>
       <mesh ref={ballRef} position={[0, -5, 0]}>
         <sphereBufferGeometry args={[0.5, 16, 16]} />
-        {quality > 1 ? (
-          <meshStandardMaterial ref={colorRef1} />
-        ) : (
-          <meshBasicMaterial ref={colorRef1} />
-        )}
+        <meshStandardMaterial ref={colorRef1} />
       </mesh>
       {quality > 1 && (
         <pointLight
