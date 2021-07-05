@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/Newtons-Cradle/static/css/main.2da3c9f1.chunk.css",
-    "main.js": "/Newtons-Cradle/static/js/main.a74c8429.chunk.js",
-    "main.js.map": "/Newtons-Cradle/static/js/main.a74c8429.chunk.js.map",
+    "main.js": "/Newtons-Cradle/static/js/main.bac5f241.chunk.js",
+    "main.js.map": "/Newtons-Cradle/static/js/main.bac5f241.chunk.js.map",
     "reactPlayerDailyMotion.js": "/Newtons-Cradle/static/js/reactPlayerDailyMotion.edfca25b.chunk.js",
     "reactPlayerDailyMotion.js.map": "/Newtons-Cradle/static/js/reactPlayerDailyMotion.edfca25b.chunk.js.map",
     "reactPlayerFacebook.js": "/Newtons-Cradle/static/js/reactPlayerFacebook.cb7be182.chunk.js",
@@ -44,6 +44,6 @@
     "static/js/runtime-main.17eb6bd1.js",
     "static/js/15.735769cd.chunk.js",
     "static/css/main.2da3c9f1.chunk.css",
-    "static/js/main.a74c8429.chunk.js"
+    "static/js/main.bac5f241.chunk.js"
   ]
 }
